@@ -57,4 +57,12 @@ public class Cart {
 			this.quantity = quantity;
 		}
 			
+		public Cart(String product, Double price, int quantity) {
+			super();
+			this.product = product;
+			this.price = price;
+			this.quantity = quantity;
+		}
+	
+		
 }
