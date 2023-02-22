@@ -10,4 +10,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
 	List<Cart> findByProduct(String product);
 
+	
+
 }
+

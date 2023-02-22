@@ -1,5 +1,6 @@
 package co.grandcircus.cartapi.controller;
 
+import java.net.http.HttpHeaders;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -85,8 +87,12 @@ public class CartController {
 	@GetMapping("/cart-items")
 		public List<Cart> readAll (				
 			@RequestParam(required = false) String product,
-			@RequestParam(required = false) Double maxPrice)	{
+			@RequestParam(required = false) Double maxPrice,
+			@RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "5") Integer pageSize)	{
 						
+			Pageable paging = PageRequest.of(pageNo, pageSize);
+		
 			if(product!= null) {
 				return cartRepo.findByProduct(product);
 			
@@ -103,7 +109,10 @@ public class CartController {
 				return itemsUnderMaxPrice;
 								
 			} else {
-				return cartRepo.findAll();
+				Page<Cart> list =  cartRepo.findAll(paging);
+			
+				return list.getContent();
+		//		return cartRepo.findAll();
 				}
 			}
 						
