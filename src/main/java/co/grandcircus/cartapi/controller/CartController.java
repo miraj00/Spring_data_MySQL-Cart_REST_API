@@ -7,6 +7,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -80,22 +82,11 @@ public class CartController {
 	/* GET  localhost:8080/cart-items?product=Printer  will return only Printer item
 	 * GET  localhost:8080/cart-items will return all items
 	 */
-//	@GetMapping("/cart-items")
-//	public List<Cart> readAll (				
-//		@RequestParam(required = false) String product)	{
-//	
-//		if(product!= null) {
-//			return cartRepo.findByProduct(product);
-//		} else {
-//			return cartRepo.findAll();
-//		}
-//	}
-	
 	@GetMapping("/cart-items")
 		public List<Cart> readAll (				
 			@RequestParam(required = false) String product,
 			@RequestParam(required = false) Double maxPrice)	{
-				
+						
 			if(product!= null) {
 				return cartRepo.findByProduct(product);
 			
@@ -116,29 +107,7 @@ public class CartController {
 				}
 			}
 						
-			
-			
-			
-//	// GET /cart-items?maxPrice=50  will return only items with price <=50
-//	@GetMapping("/cart-items")
-//	public List<Cart> maximumPrice (				
-//		@RequestParam(required = false) Double maxPrice)	{
-//	
-//		List<Cart> cartList = cartRepo.findAll();
-//		
-//		List<Cart> itemsUnderMaxPrice = new ArrayList<>();
-//		// using for each loop to count total cost
-//		for (Cart c : cartList ) {
-//			
-//			if(c.getPrice()<= maxPrice) {
-//				itemsUnderMaxPrice.add(c); 				 
-//			 }
-//		}
-//		return itemsUnderMaxPrice;
-//	}
-		
-	
-	
+
 	
 	//	GET - /cart-items/{id}
 	@GetMapping("/cart-items/{id}")
