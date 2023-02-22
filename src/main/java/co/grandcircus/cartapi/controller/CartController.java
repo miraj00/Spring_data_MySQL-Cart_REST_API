@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -109,7 +110,12 @@ public class CartController {
 		return cart;
 	}
 		
-		
-		
+	// DELETE - cart-items/{id}    ---> use link with id to delete : localhost:8080/cart-items/1
+	@DeleteMapping("/cart-items/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void delete(@PathVariable("id") Long id) {
+		cartRepo.deleteById(id);
+				
+	}
 	
 }	
