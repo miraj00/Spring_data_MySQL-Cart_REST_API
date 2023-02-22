@@ -81,34 +81,61 @@ public class CartController {
 	 * GET  localhost:8080/cart-items will return all items
 	 */
 //	@GetMapping("/cart-items")
-	public List<Cart> readAll (				
-		@RequestParam(required = false) String product)	{
+//	public List<Cart> readAll (				
+//		@RequestParam(required = false) String product)	{
+//	
+//		if(product!= null) {
+//			return cartRepo.findByProduct(product);
+//		} else {
+//			return cartRepo.findAll();
+//		}
+//	}
 	
-		if(product!= null) {
-			return cartRepo.findByProduct(product);
-		} else {
-			return cartRepo.findAll();
-		}
-	}
-	
-	
-	// GET /cart-items?maxPrice=50  will return only items with price <=50
 	@GetMapping("/cart-items")
-	public List<Cart> maximumPrice (				
-		@RequestParam(required = false) Double maxPrice)	{
-	
-		List<Cart> cartList = cartRepo.findAll();
-		
-		List<Cart> itemsUnderMaxPrice = new ArrayList<>();
-		// using for each loop to count total cost
-		for (Cart c : cartList ) {
+		public List<Cart> readAll (				
+			@RequestParam(required = false) String product,
+			@RequestParam(required = false) Double maxPrice)	{
+				
+			if(product!= null) {
+				return cartRepo.findByProduct(product);
 			
-			if(c.getPrice()<= maxPrice) {
-				itemsUnderMaxPrice.add(c); 				 
-			 }
-		}
-		return itemsUnderMaxPrice;
-	}
+			} else if (maxPrice !=null) { 
+				List<Cart> cartList = cartRepo.findAll();
+				
+				List<Cart> itemsUnderMaxPrice = new ArrayList<>();
+				// using for each loop to count total cost
+					for (Cart c : cartList ) {						
+						if(c.getPrice()<= maxPrice) {
+							itemsUnderMaxPrice.add(c); 				 
+			     		}
+					}
+				return itemsUnderMaxPrice;
+								
+			} else {
+				return cartRepo.findAll();
+				}
+			}
+						
+			
+			
+			
+//	// GET /cart-items?maxPrice=50  will return only items with price <=50
+//	@GetMapping("/cart-items")
+//	public List<Cart> maximumPrice (				
+//		@RequestParam(required = false) Double maxPrice)	{
+//	
+//		List<Cart> cartList = cartRepo.findAll();
+//		
+//		List<Cart> itemsUnderMaxPrice = new ArrayList<>();
+//		// using for each loop to count total cost
+//		for (Cart c : cartList ) {
+//			
+//			if(c.getPrice()<= maxPrice) {
+//				itemsUnderMaxPrice.add(c); 				 
+//			 }
+//		}
+//		return itemsUnderMaxPrice;
+//	}
 		
 	
 	
