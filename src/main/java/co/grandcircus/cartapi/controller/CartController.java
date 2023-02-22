@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -84,21 +85,29 @@ public class CartController {
 		}
 	}
 	
-	//	GET /cart-items/{id}
+	//	GET - /cart-items/{id}
 	@GetMapping("/cart-items/{id}")
 	public Cart readOne(@PathVariable("id") Long id) {
 		return cartRepo.findById(id).orElseThrow(()-> new ProductNotFoundException(id));
 	}
 	
-	// POST /cart-items   ---> Use this in Body : {"product":"HeadPhone", "price":40,	"quantity":1}
+	// POST - /cart-items   ---> Use this in Body : {"product":"HeadPhone", "price":40,	"quantity":1}
 	@PostMapping("/cart-items")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cart create(@RequestBody Cart cart) {
+	public Cart createOrAdd (@RequestBody Cart cart) {
 		cart.setId(null);
 		cartRepo.save(cart);
+		// cartRepo.insert(cart);    ---> can use insert
 		return cart;			
 	}
 		
+	// PUT - cart-items/{id}   ---> use this to edit id 1 :   {"id": 1, "product": "Stencil", "price": 16.5, "quantity": 2}
+	@PutMapping("/cart-items/{id}")
+	public Cart updateCart (@RequestBody Cart cart, @PathVariable("id") Long id) {
+		cart.setId(id);
+		cartRepo.save(cart);
+		return cart;
+	}
 		
 		
 		
