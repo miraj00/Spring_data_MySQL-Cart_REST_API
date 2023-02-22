@@ -1,6 +1,7 @@
 package co.grandcircus.cartapi.controller;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -76,7 +77,10 @@ public class CartController {
 			
 	}
 	// GET /cart-items
-	@GetMapping("/cart-items")
+	/* GET  localhost:8080/cart-items?product=Printer  will return only Printer item
+	 * GET  localhost:8080/cart-items will return all items
+	 */
+//	@GetMapping("/cart-items")
 	public List<Cart> readAll (				
 		@RequestParam(required = false) String product)	{
 	
@@ -86,6 +90,28 @@ public class CartController {
 			return cartRepo.findAll();
 		}
 	}
+	
+	
+	// GET /cart-items?maxPrice=50  will return only items with price <=50
+	@GetMapping("/cart-items")
+	public List<Cart> maximumPrice (				
+		@RequestParam(required = false) Double maxPrice)	{
+	
+		List<Cart> cartList = cartRepo.findAll();
+		
+		List<Cart> itemsUnderMaxPrice = new ArrayList<>();
+		// using for each loop to count total cost
+		for (Cart c : cartList ) {
+			
+			if(c.getPrice()<= maxPrice) {
+				itemsUnderMaxPrice.add(c); 				 
+			 }
+		}
+		return itemsUnderMaxPrice;
+	}
+		
+	
+	
 	
 	//	GET - /cart-items/{id}
 	@GetMapping("/cart-items/{id}")
