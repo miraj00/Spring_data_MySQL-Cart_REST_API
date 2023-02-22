@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import co.grandcircus.cartapi.model.Cart;
 import co.grandcircus.cartapi.repository.CartRepository;
 
+@CrossOrigin
 @RestController
 public class CartController {
 
@@ -137,7 +139,7 @@ public class CartController {
 		return totalwithTax;
 	}
 	
-	// PATCH /cart-items/{id}/add
+	// PATCH cart-items/{id}/add
 	//Updates the quantity of an existing item in the cart whose id matches 
     //count: The amount to add to the cart. For example, if the cart presently has 3 apples and this API call has a count of 2, the cart will be updated to contain 5 apples.
 
