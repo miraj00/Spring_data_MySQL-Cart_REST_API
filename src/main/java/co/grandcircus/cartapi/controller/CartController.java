@@ -1,9 +1,7 @@
 package co.grandcircus.cartapi.controller;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -114,8 +112,28 @@ public class CartController {
 	@DeleteMapping("/cart-items/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable("id") Long id) {
-		cartRepo.deleteById(id);
-				
+		cartRepo.deleteById(id);			
 	}
+	
+	@GetMapping("cart-items/total-cost")
+	public Double totalCost () {
+		
+		List<Cart> cartList = cartRepo.findAll();
+		
+		Double total = 0.00;
+		// using for each loop to count total cost
+		for (Cart c : cartList ) {
+			total+= c.getPrice() * c.getQuantity(); 
+		}
+		Double totalwithTax = total * 1.06;
+		
+		// formating to 2 decimals 
+		DecimalFormat df = new DecimalFormat("#.##");      
+		totalwithTax = Double.valueOf(df.format(totalwithTax));
+		
+		
+		return totalwithTax;
+	}
+	
 	
 }	
