@@ -8,9 +8,13 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import co.grandcircus.cartapi.model.Cart;
 import co.grandcircus.cartapi.repository.CartRepository;
@@ -68,7 +72,7 @@ public class CartController {
 		return "Data Reset";
 			
 	}
-		
+	// GET /cart-items
 	@GetMapping("/cart-items")
 	public List<Cart> readAll (				
 		@RequestParam(required = false) String product)	{
@@ -80,12 +84,20 @@ public class CartController {
 		}
 	}
 	
+	//	GET /cart-items/{id}
 	@GetMapping("/cart-items/{id}")
 	public Cart readOne(@PathVariable("id") Long id) {
 		return cartRepo.findById(id).orElseThrow(()-> new ProductNotFoundException(id));
 	}
 	
-		
+	// POST /cart-items   ---> Use this in Body : {"product":"HeadPhone", "price":40,	"quantity":1}
+	@PostMapping("/cart-items")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Cart create(@RequestBody Cart cart) {
+		cart.setId(null);
+		cartRepo.save(cart);
+		return cart;			
+	}
 		
 		
 		

@@ -12,16 +12,16 @@ public class Cart {
 
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		private long id;
+		private Long id;
 		private String product;
 		private Double price;
 		private int quantity;
 		
 		
-		public long getId() {
+		public Long getId() {
 			return id;
 		}
-		public void setId(long id) {
+		public void setId(Long id) {
 			this.id = id;
 		}
 		public String getProduct() {
@@ -49,7 +49,7 @@ public class Cart {
 			// TODO Auto-generated constructor stub
 		}
 		
-		public Cart(long id, String product, Double price, int quantity) {
+		public Cart(Long id, String product, Double price, int quantity) {
 			super();
 			this.id = id;
 			this.product = product;
