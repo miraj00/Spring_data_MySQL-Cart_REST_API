@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import co.grandcircus.cartapi.model.Cart;
@@ -77,7 +78,17 @@ public class CartController {
 		} else {
 			return cartRepo.findAll();
 		}
-		
-		
 	}
+	
+	@GetMapping("/cart-items/{id}")
+	public Cart readOne(@PathVariable("id") Long id) {
+		return cartRepo.findById(id).orElseThrow(()-> new ProductNotFoundException(id));
+	}
+	
+		
+		
+		
+		
+		
+	
 }	
