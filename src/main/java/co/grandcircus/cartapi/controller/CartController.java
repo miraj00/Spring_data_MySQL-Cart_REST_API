@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -115,6 +116,7 @@ public class CartController {
 		cartRepo.deleteById(id);			
 	}
 	
+	//GET /cart-items/total-cost
 	@GetMapping("cart-items/total-cost")
 	public Double totalCost () {
 		
@@ -135,5 +137,34 @@ public class CartController {
 		return totalwithTax;
 	}
 	
-	
+	// PATCH /cart-items/{id}/add
+	//Updates the quantity of an existing item in the cart whose id matches 
+    //count: The amount to add to the cart. For example, if the cart presently has 3 apples and this API call has a count of 2, the cart will be updated to contain 5 apples.
+
+	/*For Example : Use : 
+	 *  QueryParams :  Key : count, Value : 4;    ---> With this endpoint turns to : localhost:8080/cart-items/4/add?count=4
+	 *  Body :   
+	 *    {
+        	"id": 4,
+        	"product": "Purse",
+        	"price": 45.2,
+        	"quantity": 1
+    	  }
+    	  
+    	Upon success, Response body will be : 
+    	  {
+		    "id": 4,
+		    "product": "Purse",
+		    "price": 45.2,
+		    "quantity": 5
+		  }
+	 */
+	@PatchMapping("/cart-items/{id}/add")
+	public Cart updateCartQuantity(@RequestBody Cart cart, @PathVariable("id") Long id, Integer count ) {
+
+		cart.setQuantity(cart.getQuantity() + count);
+		return cartRepo.save(cart);
+		
+	}
+		
 }	
